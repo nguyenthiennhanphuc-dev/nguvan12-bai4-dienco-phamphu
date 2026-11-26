@@ -1894,7 +1894,7 @@
       </div>
 
       <!-- Video Engines (Local MP4 and YouTube Iframe) -->
-      <video id="localVideo" preload="metadata" playsinline></video>
+      <video id="localVideo" preload="auto" playsinline></video>
       <div id="ytContainer"><div id="ytplayer"></div></div>
 
       <!-- Transparent shield to block native controls / scrubbing -->
@@ -2891,7 +2891,10 @@
         }
 
         updateTimelineUI(currentTime);
-        saveStudentProgressLocally();
+        if (!window._lastSaveTick || Date.now() - window._lastSaveTick > 3000) {
+          window._lastSaveTick = Date.now();
+          saveStudentProgressLocally();
+        }
       }, 250);
     }
 
