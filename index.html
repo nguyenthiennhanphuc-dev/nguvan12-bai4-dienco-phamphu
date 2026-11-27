@@ -415,8 +415,10 @@
     }
 
     .quiz-scroll-body {
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding-top: 6px;
       padding-right: 6px;
       margin-bottom: 8px;
@@ -1342,17 +1344,19 @@
     /* Student Registration Modal */
     .register-modal {
       position: fixed;
+      inset: 0;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(10px);
-      z-index: 100;
+      z-index: 9995;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      padding: 14px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .register-box {
@@ -1361,7 +1365,8 @@
       border-radius: 20px;
       max-width: 500px;
       width: 100%;
-      padding: 30px 26px;
+      margin: auto;
+      padding: 26px 22px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
       text-align: center;
     }
@@ -1426,19 +1431,20 @@
     /* Final Score Screen */
     .completion-screen {
       display: none;
-      position: absolute;
+      position: fixed;
+      inset: 0;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
       background: rgba(15, 23, 42, 0.97);
-      z-index: 50;
-      padding: 24px;
+      z-index: 2147483647;
+      padding: 16px;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
       text-align: center;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .completion-screen.show {
       display: flex;
@@ -1448,9 +1454,10 @@
       background: #1e293b;
       border: 2px solid #10b981;
       border-radius: 20px;
-      padding: 28px;
+      padding: 24px 20px;
       max-width: 580px;
       width: 100%;
+      margin: auto;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
     }
 
@@ -1790,7 +1797,9 @@
     }
     @media (max-width: 600px) {
       .btn-fullscreen-pill .fs-label { display: none; }
-      .btn-fullscreen-pill { width: 36px !important; padding: 0 !important; border-radius: 50% !important; }
+      .btn-fullscreen-pill { width: 34px !important; padding: 0 !important; border-radius: 50% !important; }
+      .controls-bar { padding: 0 8px !important; gap: 6px !important; }
+      .time-display { min-width: auto !important; font-size: 0.78rem !important; }
     }
     .controls-bar {
       position: relative !important;
@@ -5056,6 +5065,9 @@
       const minRequiredScore = Math.round(((PASSING_THRESHOLD_PCT / 100) * totalQ) * 10) / 10;
 
       const screen = document.getElementById('completionScreen');
+      if (screen && screen.parentNode !== document.body) {
+        document.body.appendChild(screen);
+      }
       const titleEl = document.getElementById('completionTitle');
       const scoreCircle = document.getElementById('completionScoreCircle');
       const scoreText = document.getElementById('finalScoreText');
